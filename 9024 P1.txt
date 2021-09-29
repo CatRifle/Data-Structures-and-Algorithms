@@ -1,0 +1,79 @@
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// data type for nodes
+typedef struct DLListNode {
+	int  value;  // value (int) of this list item
+	struct DLListNode *prev;
+	// pointer previous node in list
+	struct DLListNode *next;
+	// pointer to next node in list
+} DLListNode;
+
+//data type for doubly linked lists
+typedef struct DLList{
+	int  size;      // count of items in list
+	DLListNode *first; // first node in list
+	DLListNode *last;  // last node in list
+} DLList;
+
+// create a new DLListNode
+DLListNode *newDLListNode(int it)
+{
+	DLListNode *new;
+	new = malloc(sizeof(DLListNode));
+	assert(new != NULL);
+	new->value = it;
+	new->prev = new->next = NULL;
+	return new;
+}
+
+// create a new empty DLList
+DLList *newDLList()
+{
+	DLList *L;
+
+	L = malloc(sizeof (struct DLList));
+	assert (L != NULL);
+	L->size = 0;
+	L->first = NULL;
+	L->last = NULL;
+	return L;
+}
+
+
+int main(){
+
+int a[]={1,2,3,4,5};
+DLList *ddlist=newDLList();
+ddlist->size= 5;
+DLListNode *prev=NULL;
+DLListNode *current=NULL;
+DLListNode *next=NULL;
+
+for(int i =0; i<ddlist->size; i++){
+	if(i==0){
+		current = newDLListNode(a[i]);
+		ddlist->first=current;
+		next=newDLListNode(a[i+1]);
+	}
+	else{
+		if(i==ddlist->size-1){
+			current = newDLListNode(a[i]);
+			ddlist->last=current;
+			next=NULL;
+		}
+		else{
+			next=newDLListNode(a[i+1]);
+		}
+	}
+	current->prev=prev;
+	current->next=next;
+	current=next;
+	prev=current;
+}
+
+return ddlist;
+
+}
